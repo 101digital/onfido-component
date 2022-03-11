@@ -32,12 +32,7 @@ cd ..
 ```javascript
 import React, { Component } from 'react';
 import { Button, View } from 'react-native';
-import {
-  Onfido,
-  OnfidoCaptureType,
-  OnfidoCountryCode,
-  OnfidoDocumentType
-} from '@onfido/react-native-sdk';
+import {OnfidoComponent} from '@onfido-component';
 
 export default class App extends Component {
   startSDK() {
@@ -60,9 +55,19 @@ export default class App extends Component {
 
   render() {
     return (
-      <View style={{ marginTop: 100 }}>
-        <Button title="Start Onfido SDK" onPress={() => this.startSDK()} />
-      </View>
+			...
+
+			<OnfidoComponent
+				sdkToken={"SDKToken"}
+				welcome={true}
+				captureFace={false}
+				type="VIDEO"
+				docType="NATIONAL_IDENTITY_CARD"
+				countryCode="SGP;"
+				onClick={}//triger event
+				response={}// respone
+			/>
+			...
     );
   }
 }
@@ -163,141 +168,3 @@ Example
   message: "sdkToken is missing"
 }
 ```
-
-### 5. Localization
-
-The SDK supports and maintains the following 6 languages:
-
-- English (en) 🇬🇧
-- Spanish (es) 🇪🇸
-- French (fr) 🇫🇷
-- German (de) 🇩🇪
-- Italian (it) 🇮🇹
-- Portuguese (pt) 🇵🇹
-
-However, you can add your own translations.
-
-#### Android
-
-By default, custom localisation is enabled on Android. There is no configuration needed on React Native SDK to enable it.
-You could also provide custom translation for a locale that we don’t currently support, by having an additional XML strings file inside your resources folder for the desired locale. See [Localisation section of Android SDK repo](https://github.com/onfido/onfido-android-sdk#4-localisation) for the details.
-
-#### iOS
-
-You can also provide a custom translation for a locale that Onfido doesn't currently support.
-There is a simple configuration needed on the React Native SDK to enable custom localisation.
-
-1. Add this statement to your configuration object.
-
-```
-localisation: {
-  ios_strings_file_name: '<Your .strings file name in iOS app bundle>',
-},
-```
-
-2. Navigate to the iOS folder `cd ios`, and open your XCode workspace.
-3. Follow the instructions for [iOS Localisation](https://medium.com/lean-localization/ios-localization-tutorial-938231f9f881) to add a new custom language or override existing translations.
-4. You can find the keys that need to be translated in the [iOS SDK repo](https://github.com/onfido/onfido-ios-sdk/blob/master/localization/Localizable_EN.strings).
-
-## Creating checks
-
-As the SDK is only responsible for capturing and uploading photos/videos, you would need to start a check on your backend server using the [Onfido API](https://documentation.onfido.com/).
-
-### 1. Obtaining an API token
-
-All API requests must be made with an API token included in the request headers. You can find your API token (not to be mistaken with the mobile SDK token) inside your [Onfido Dashboard](https://onfido.com/dashboard/api/tokens).
-
-Refer to the [Authentication](https://documentation.onfido.com/#authentication) section in the API documentation for details. For testing, you should be using the sandbox, and not the live, token.
-
-### 2. Creating a check
-
-You will need to create a check by making a request to the [create check endpoint](https://documentation.onfido.com/#create-check), using the applicant id. If you are just verifying a document, you only have to include a [document report](https://documentation.onfido.com/#document-report) as part of the check. On the other hand, if you are verifying a document and a face photo/live video, you will also have to include a [facial similarity report](https://documentation.onfido.com/#facial-similarity-report) with the corresponding values: `facial_similarity_photo` for the photo option and `facial_similarity_video` for the video option.
-
-```shell
-$ curl https://api.onfido.com/v3/checks \
-    -H 'Authorization: Token token=YOUR_API_TOKEN' \
-    -d 'applicant_id=YOUR_APPLICANT_ID' \
-    -d 'report_names=[document,facial_similarity_photo]'
-```
-
-**Note**: You can also submit the POST request in JSON format.
-
-You will receive a response containing the check id instantly. As document and facial similarity reports do not always return actual [results](https://documentation.onfido.com/#results) straightaway, you need to set up a webhook to get notified when the results are ready.
-
-Finally, as you are testing with the sandbox token, please be aware that the results are pre-determined. You can learn more about sandbox responses [here](https://documentation.onfido.com/#pre-determined-responses).
-
-**Note**: If you're using API v2, please check out [API v2 to v3 migration guide](https://developers.onfido.com/guide/v2-to-v3-migration-guide#checks-in-api-v3) to understand which changes need to be applied before starting to use API v3.
-
-## Theme Customization
-
-You can customize the SDK by adding a `colors.json` file to your project at the same level as your `node_modules` directory. The file should contain a single json object with the desired keys and values. For example:
-
-```json
-{
-  "onfidoPrimaryColor": "#FF0000",
-  "onfidoPrimaryButtonTextColor": "#008000",
-  "onfidoPrimaryButtonColorPressed": "#FFA500",
-  "onfidoAndroidStatusBarColor": "#A52A2A",
-  "onfidoAndroidToolBarColor": "#800080",
-  "onfidoIosSupportDarkMode": true
-}
-```
-
-Below is a description of all available keys:
-
-- **`onfidoPrimaryColor`**: Defines the background color of views such as the document type icon, capture confirmation buttons, and back navigation button.
-- **`onfidoPrimaryButtonTextColor`**: Defines the text color of labels included in views such as capture confirmation buttons.
-- **`onfidoPrimaryButtonColorPressed`**: Defines the background color of capture confirmation buttons when pressed.
-- **`onfidoAndroidStatusBarColor`**: Android only. Defines the background color of the `Toolbar` that guides the user through the flow.
-- **`onfidoAndroidToolBarColor`**: Android only. Defines the color of the status bar above the `Toolbar`.
-- **`onfidoIosSupportDarkMode`**: iOS Only. Defines if Dark Mode will be supported on SDK screens. The value is true by default.
-
-Once you've added the colors.json to your project, you should add colors.json file to your xcode project as bundle resource. You can create symbolic link (rather than copy paste) to prevent redundancy. You can check out SampleApp project to see example usage.
-Then when running on an iOS device the values will be picked up dynamically at runtime. For Android devices to pick up the values you will need to run the following command at the same level of your `node_modules` directory. This will also be run when running the `npm --prefix node_modules/@onfido/react-native-sdk/ run updateOnfido` command.
-
-```shell
-$ npm --prefix node_modules/@onfido/react-native-sdk/ run updateColors
-```
-
-## Going live
-
-Once you are happy with your integration and are ready to go live, please contact [client-support@onfido.com](mailto:client-support@onfido.com) to obtain live versions of the API token and the mobile SDK token. You will have to replace the sandbox tokens in your code with the live tokens.
-
-A few things to check before you go live:
-
-- Make sure you have entered correct billing details inside your [Onfido Dashboard](https://onfido.com/dashboard/)
-
-## More Information
-
-### Troubleshooting
-
-**Resolving dependency conflicts**
-
-Here are some helpful resources if you are experiencing dependency conflicts between this React Native SDK and other packages your app uses:
-
-- [Gradle: Dependency Resolution](https://docs.gradle.org/current/userguide/dependency_resolution.html#header)
-- [Gradle: Dependency Constraints](https://docs.gradle.org/current/userguide/dependency_constraints.html#dependency-constraints)
-
-**General advice**
-
-If you see issues, you can try removing `node_modules`, build directories, and cache files. A good tool to help with this is [react-native-clean-project](https://github.com/pmadruga/react-native-clean-project)
-
-### Discrepancies between underlying Onfido native SDKs
-
-Below is a list of known differences in expected behavior between the Onfido Android and iOS SDKs this React Native SDK wraps:
-
-- Documents with the type `passport` uploaded through the iOS SDK will have the `side` attribute set to `null`, while those uploaded via Android will have `side` as `front`.
-
-### Support
-
-Please open an issue through [GitHub](https://github.com/onfido/onfido-react-native-sdk/issues). Please be as detailed as you can. Remember **not** to submit your token in the issue. Also check the closed issues to check whether it has been previously raised and answered.
-
-If you have any issues that contain sensitive information please send us an email with the `ISSUE:` at the start of the subject to [react-native-sdk@onfido.com](mailto:react-native-sdk@onfido.com?Subject=ISSUE%3A)
-
-Previous version of the SDK will be supported for a month after a new major version release. Note that when the support period has expired for an SDK version, no bug fixes will be provided, but the SDK will keep functioning (until further notice).
-
-Copyright 2021 Onfido, Ltd. All rights reserved.
-
-## How is the Onfido React Native SDK licensed?
-
-The Onfido React Native SDK is available under the MIT license.
