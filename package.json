@@ -1,6 +1,6 @@
 {
   "name": "onfido-component",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "onfido intigrated component",
   "repository": "https://github.com/101digital/onfido-component.git",
   "license": "MIT",
@@ -32,7 +32,8 @@
     "react-native-permissions": "^3.0.5",
     "react-native-svg": "^12.1.1",
     "react-test-renderer": "^17.0.2",
-    "typescript": "^4.0.2"
+    "typescript": "^4.0.2",
+    "@onfido/react-native-sdk": "^5.0.0"
   },
   "resolutions": {
     "@react-native-community/cli-platform-ios": "4.13.0"
