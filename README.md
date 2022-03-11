@@ -35,23 +35,7 @@ import { Button, View } from 'react-native';
 import {OnfidoComponent} from '@onfido-component';
 
 export default class App extends Component {
-  startSDK() {
-    Onfido.start({
-      sdkToken: 'sdkTokenFromOnfidoServer',
-      flowSteps: {
-        welcome: true,
-        captureFace: {
-          type: OnfidoCaptureType.VIDEO
-        },
-        captureDocument: {
-          docType: OnfidoDocumentType.DRIVING_LICENCE,
-          countryCode: OnfidoCountryCode.GBR
-        }
-      }
-    })
-      .then(res => console.warn('OnfidoSDK: Success:', JSON.stringify(res)))
-      .catch(err => console.warn('OnfidoSDK: Error:', err.code, err.message));
-  }
+
 
   render() {
     return (
