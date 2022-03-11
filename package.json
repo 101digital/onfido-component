@@ -1,0 +1,40 @@
+{
+  "name": "onfido-component",
+  "version": "1.0.0",
+  "description": "onfido intigrated component",
+  "repository": "https://github.com/101digital/onfido-component.git",
+  "license": "MIT",
+  "main": "index.ts",
+  "types": "index.d.ts",
+  "files": [
+    "src/"
+  ],
+  "scripts": {
+    "lint": "tsc --noEmit && eslint src/ --ext .js,.jsx,.ts,.tsx"
+  },
+  "keywords": [],
+  "author": "sharmal-101D",
+  "dependencies": {
+    "@onfido/react-native-sdk": "^5.0.0"
+  },
+  "devDependencies": {
+    "@react-native-async-storage/async-storage": "^1.15.5",
+    "@react-native-community/eslint-config": "^2.0.0",
+    "@types/lodash": "^4.14.170",
+    "@types/react": "^16.9.48",
+    "@types/react-native": "^0.63.13",
+    "@types/react-native-calendars": "1.20.12",
+    "eslint": "^7.8.1",
+    "react": "16.13.1",
+    "react-native": "0.63.2",
+    "react-native-image-crop-picker": "^0.36.2",
+    "react-native-localize": "^2.1.1",
+    "react-native-permissions": "^3.0.5",
+    "react-native-svg": "^12.1.1",
+    "react-test-renderer": "^17.0.2",
+    "typescript": "^4.0.2"
+  },
+  "resolutions": {
+    "@react-native-community/cli-platform-ios": "4.13.0"
+  }
+}
