@@ -1,0 +1,18 @@
+PODS:
+
+DEPENDENCIES:
+  - "onfido-react-native-sdk (from `../node_modules/@onfido/react-native-sdk`)"
+
+SPEC REPOS:
+  trunk:
+    - Onfido
+
+EXTERNAL SOURCES:
+  onfido-react-native-sdk:
+    :path: "../node_modules/@onfido/react-native-sdk"
+
+SPEC CHECKSUMS:
+  Onfido: 860db9959cbdc236107a89ed495c1faea9560072
+  onfido-react-native-sdk: 80cf1e413f3e6d23a898ed1803741f2beeb042a1
+
+COCOAPODS: 1.11.2
