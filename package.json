@@ -1,6 +1,6 @@
 {
   "name": "onfido-component",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "onfido intigrated component",
   "repository": "https://github.com/101digital/onfido-component.git",
   "license": "MIT",
@@ -24,6 +24,7 @@
     "@types/react": "^16.9.48",
     "@types/react-native": "^0.63.13",
     "@types/react-native-calendars": "1.20.12",
+    "@onfido/react-native-sdk": "^5.0.0",
     "eslint": "^7.8.1",
     "react": "17.0.2",
     "react-native": "0.67.3",
