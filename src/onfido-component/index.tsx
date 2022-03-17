@@ -36,7 +36,6 @@ function OnfidoComponent(props: OnfidoComponentProps) {
   })
     .then(response => {
       return response;
-      console.log("OnfidoSDK: Success:");
     })
     .catch(err => {
       if (err.message) {
