@@ -27,7 +27,7 @@ function OnfidoComponent(props: OnfidoComponentProps) {
       welcome: true,
       captureDocument: {
         docType: OnfidoDocumentType.NATIONAL_IDENTITY_CARD,
-        countryCode: OnfidoCountryCode.SGP
+        countryCode: OnfidoCountryCode.GBR
       },
       captureFace: {
         type: OnfidoCaptureType.PHOTO
